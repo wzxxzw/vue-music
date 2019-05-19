@@ -1,10 +1,11 @@
 <template>
   <div class="singer" ref="singer">
-    这是歌手页面
+     <listview :data="singerLists"></listview>
   </div>
 </template>
 <script type="text/ecmascript-6">
   import {getSingerList} from 'api/singer'
+  import Listview from 'base/listview'
   import {ERR_OK} from 'api/config'
   import Singer from 'common/js/singer'
 
@@ -12,9 +13,13 @@
   const HOT_SINGER_LEN = 10
   const HOT_NAME = '热门'
 export default {
+  components: {
+    Listview
+  },
   data () {
     return {
-      singerList: []
+      singerList: [],
+      singerLists: []
     }
   },
   created () {
@@ -26,11 +31,12 @@ export default {
         if (res.code === ERR_OK) {
           console.log(res)
           this.singerList = res.data.list
-          console.log(this._normalizeSinger(this.singerList))
+          this.singerLists = this._normalizeSinger(this.singerList)
         }
       })
     },
   _normalizeSinger(list) {
+      let arr = []
       let map = {
         hot:{
           title: HOT_NAME,
@@ -56,8 +62,7 @@ export default {
           ))
         }
       })
-      console.log(map)
-
+     return  arr.push(map)
   }
   }
 }
