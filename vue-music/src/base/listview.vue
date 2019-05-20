@@ -1,17 +1,30 @@
 <template>
     <div>
-       <scroll  class="listview">
-           <ul>
-             <li v-for="(group, index) in data" class="list-group" ref="listGroup" :key="index">
-                <h2>{{ item.title }}</h2>
-                <uL>
-                  <li @click="selectItem(item)" v-for="item in group.items" class="list-group-item">
-                    <img class="avatar" v-lazy="item.avatar">
-                    <span class="name">{{item.name}}</span>
-                  </li>
-                </uL>
-             </li>
-           </ul>
+       <scroll  class="listview" :data="data">
+         <div>
+            <ul>
+              <li v-for="(group, index) in data" class="list-group" ref="listGroup" :key="index">
+                  <h2 class="list-group-title">{{ group.title }}</h2>
+                  <uL>
+                    <li v-for="(item, index) in group.items" class="list-group-item" :key="index">
+                      <img class="avatar" v-lazy="item.avatar">
+                      <span class="name">{{item.name}}</span>
+                    </li>
+                  </uL>
+              </li>
+            </ul>
+            <div class="list-shortcut">
+              <ul>
+                <li v-for="(item, index) in shortcutList" :data-index="index" class="item"
+                    :key="index"
+                    :class="{'current':currentIndex===index}">{{item}}
+                </li>
+              </ul>
+            </div>
+            <div class="list-fixed" ref="fixed" v-show="fixedTitle">
+              <div class="fixed-title">{{fixedTitle}} </div>
+            </div>
+          </div>
        </scroll>
     </div>
 </template>
@@ -19,15 +32,24 @@
 import BScroll from 'better-scroll'
 import Scroll from 'base/scroll'
  export default {
-  prop: {
+  props: {
     data: {
       type: Array,
-      default: []
+      default:function () {
+        return []
+      }
     }
   },
   components: {
     Scroll
-  },    
+  },
+  computed: {
+    shortcutList() {
+      return this.data.map((group) => {
+        return group.title.substr(0, 1)
+      })
+    },
+  }  
  }
  </script>
  <style scoped lang="stylus" rel="stylesheet/stylus">
@@ -61,7 +83,7 @@ import Scroll from 'base/scroll'
           color: $color-text-l
           font-size: $font-size-medium
     .list-shortcut
-      position: absolute
+      position: fixed
       z-index: 30
       right: 0
       top: 50%
