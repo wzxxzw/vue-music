@@ -1,6 +1,8 @@
 <template>
   <div class="singer" ref="singer">
-     <listview :data="singerList"></listview>
+     <listview :data="singerList" @select="select"></listview>
+     <router-view></router-view>
+
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -25,6 +27,11 @@ export default {
     this._getSingerList()
   },
   methods: {
+  //  点击当前行路由跳转
+  select(singer) {
+    console.log(singer)
+    this.$router.push({path: `/singer/${singer.id}`})
+  },
     _getSingerList () {
       this.singerLists = []
       getSingerList().then((res) => {
