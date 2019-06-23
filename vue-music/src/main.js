@@ -10,6 +10,7 @@ import 'mint-ui/lib/style.css';
 import 'common/stylus/index.styl'
 import fastclick from 'fastclick'
 import VueLazyload from 'vue-lazyload'
+import store from './store'
 // fastclick.attach(document.body)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios  
@@ -24,6 +25,7 @@ Vue.use(VueLazyload, {
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

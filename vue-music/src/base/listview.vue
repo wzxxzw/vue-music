@@ -8,12 +8,12 @@
     <ul>
       <li v-for="(group,index) in data" class="list-group" ref="listGroup" :key='index'>
         <h2 class="list-group-title">{{group.title}}</h2>
-        <uL>
+        <ul>
           <li @click="selectItem(item)" v-for="(item, index) in group.items" class="list-group-item" :key='index'>
             <img class="avatar" v-lazy="item.avatar">
             <span class="name">{{item.name}}</span>
           </li>
-        </uL>
+        </ul>
       </li>
     </ul>
     <div class="list-shortcut" @touchstart.stop.prevent="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove"
