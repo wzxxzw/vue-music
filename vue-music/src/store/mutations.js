@@ -10,8 +10,14 @@ const mutations = {
       [types.SET_FULL_SCREEN](state, flag) {
         state.fullScreen = flag
       },
+      [types.SET_CURRENT_INDEX](state, index) {
+        state.currentIndex = index
+      },
       [types.SET_PLAYLIST](state, list) {
         state.playlist = list
+      },
+      [types.SET_SEQUENCE_LIST](state, list) {
+        state.sequenceList = list
       },
 }
 export default  mutations

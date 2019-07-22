@@ -1,6 +1,6 @@
 <template>
   <div class="player" v-show="playlist.length>0">
-      <div class="normal-player" v-show="fullscreen">
+      <div class="normal-player" v-show="fullScreen">
         <div class="background">
             123
         </div>
@@ -30,9 +30,9 @@
         </div>
       </div>
     <transition name="mini">
-      <div class="mini-player" v-show="!fullscreen">
+      <div class="mini-player" v-show="!fullScreen">
         <div class="icon">
-          <img :class="cdCls" width="40" height="40">
+          <img  width="40" height="40">
         </div>
         <div class="text">
         </div>
@@ -63,9 +63,7 @@
       }
     },
   
-   
-    methods: {
-      
+   computed: {
       ...mapMutations({
         setFullScreen: 'SET_FULL_SCREEN'
       }),
@@ -73,8 +71,14 @@
         'savePlayHistory'
       ]),
       ...mapGetters([
-        'fullscreen'
+        'currentIndex',
+        'playlist',
+        'fullScreen'
       ])
+   },
+    methods: {
+      
+
     },
     components: {
     }
