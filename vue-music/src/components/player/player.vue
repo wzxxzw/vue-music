@@ -2,18 +2,22 @@
   <div class="player" v-show="playlist.length>0">
       <div class="normal-player" v-show="fullScreen">
         <div class="background">
-            123
+           <img width="100%" height="100%" :src="currentSong.image">
         </div>
         <div class="top">
-          <div class="back">
+          <div class="back"  @click="back">
+                {{fullScreen}}
             <i class="icon-back"></i>
           </div>
+          <h1 class="title" v-html="currentSong.name"></h1>
+          <h2 class="subtitle" v-html="currentSong.singer"></h2>
         </div>
         <div class="middle"
         >
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">
               <div class="cd">
+                <img class="image" :src="currentSong.image">
               </div>
             </div>
             <div class="playing-lyric-wrapper">
@@ -27,18 +31,38 @@
             <div class="progress-bar-wrapper">
             </div>
           </div>
+          <div class="operators">
+            <div class="icon i-left" >
+              <i :class="iconMode"></i>
+            </div>
+            <div class="icon i-left">
+              <i @click="prev" class="icon-prev"></i>
+            </div>
+            <div class="icon i-center">
+              <i @click="togglePlaying"></i>
+            </div>
+            <div class="icon i-right" >
+              <i @click="next" class="icon-next"></i>
+            </div>
+            <div class="icon i-right">
+              <i  class="icon"></i>
+            </div>
+          </div>
         </div>
       </div>
     <transition name="mini">
-      <div class="mini-player" v-show="!fullScreen">
+      <div class="mini-player" v-show="!fullScreen" @click="open">
         <div class="icon">
-          <img  width="40" height="40">
+          <img :class="cdCls" width="40" height="40" :src="currentSong.image">
         </div>
         <div class="text">
+          <h2 class="name" v-html="currentSong.name"></h2>
+          <p class="desc" v-html="currentSong.singer"></p>
         </div>
         <div class="control">
+            <i @click.stop="togglePlaying" class="icon-mini" :class="miniIcon"></i>
         </div>
-        <div class="control">
+        <div class="control" @click.stop="showPlaylist">
           <i class="icon-playlist"></i>
         </div>
       </div>
@@ -63,25 +87,30 @@
       }
     },
   
-   computed: {
-      ...mapMutations({
-        setFullScreen: 'SET_FULL_SCREEN'
-      }),
-      ...mapActions([
-        'savePlayHistory'
-      ]),
-      ...mapGetters([
-        'currentIndex',
-        'playlist',
-        'fullScreen'
-      ])
-   },
     methods: {
-      
+      back() {
+        this.$store.commit('SET_FULL_SCREEN',false)
+        console.log(this.fullScreen)
+        // this.setFullScreen(false)
+      },
+      ...mapMutations({
+          setFullScreen: 'SET_FULL_SCREEN'
+      }),
 
     },
+      computed: {
+         ...mapActions([
+           'savePlayHistory'
+         ]),
+         ...mapGetters([
+           'currentIndex',
+           'playlist',
+           'fullScreen',
+           'currentSong'
+         ])
+      },
     components: {
-    }
+      }
   }
 </script>
 
