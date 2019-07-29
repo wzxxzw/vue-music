@@ -5,15 +5,13 @@
            <img width="100%" height="100%" :src="currentSong.image">
         </div>
         <div class="top">
-          <div class="back"  @click="back">
-                {{fullScreen}}
+          <div class="back"  @click="back()">
             <i class="icon-back"></i>
           </div>
           <h1 class="title" v-html="currentSong.name"></h1>
           <h2 class="subtitle" v-html="currentSong.singer"></h2>
         </div>
-        <div class="middle"
-        >
+        <div class="middle">
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">
               <div class="cd">
@@ -32,26 +30,26 @@
             </div>
           </div>
           <div class="operators">
-            <div class="icon i-left" >
+            <div class="icon i-left" s>
               <i :class="iconMode"></i>
             </div>
-            <div class="icon i-left">
-              <i @click="prev" class="icon-prev"></i>
+            <div class="icon i-left" :class="disableCls">
+              <i class="icon-prev"></i>
             </div>
-            <div class="icon i-center">
-              <i @click="togglePlaying"></i>
+            <div class="icon i-center" :class="disableCls">
+              <i :class="playIcon"></i>
             </div>
-            <div class="icon i-right" >
-              <i @click="next" class="icon-next"></i>
+            <div class="icon i-right" :class="disableCls">
+              <i  class="icon-next"></i>
             </div>
             <div class="icon i-right">
-              <i  class="icon"></i>
+              <i class="icon icon-next"></i>
             </div>
           </div>
         </div>
       </div>
     <transition name="mini">
-      <div class="mini-player" v-show="!fullScreen" @click="open">
+      <div class="mini-player" v-show="!fullScreen">
         <div class="icon">
           <img :class="cdCls" width="40" height="40" :src="currentSong.image">
         </div>
@@ -60,7 +58,9 @@
           <p class="desc" v-html="currentSong.singer"></p>
         </div>
         <div class="control">
+          <!-- <progress-circle :radius="radius" :percent="percent">
             <i @click.stop="togglePlaying" class="icon-mini" :class="miniIcon"></i>
+          </progress-circle> -->
         </div>
         <div class="control" @click.stop="showPlaylist">
           <i class="icon-playlist"></i>
@@ -99,6 +99,21 @@
 
     },
       computed: {
+          cdCls() {
+            return this.playing ? 'play' : 'play pause'
+          },
+          playIcon() {
+            return this.playing ? 'icon-pause' : 'icon-play'
+          },
+          miniIcon() {
+            return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
+          },
+          disableCls() {
+            return this.songReady ? '' : 'disable'
+          },
+          percent() {
+            return this.currentTime / this.currentSong.duration
+          },
          ...mapActions([
            'savePlayHistory'
          ]),

@@ -1,5 +1,5 @@
 import * as types from './mutation-types'
-
+import Vue from 'vue'
 const mutations = {
     SET_SINGER(state, param) {
         state.singer = param
@@ -8,7 +8,7 @@ const mutations = {
         state.playing = flag
       },
       [types.SET_FULL_SCREEN](state, flag) {
-        console.log(1)
+        // Vue.set(state, fullScreen, flag)
         state.fullScreen = flag
       },
       [types.SET_CURRENT_INDEX](state, index) {
